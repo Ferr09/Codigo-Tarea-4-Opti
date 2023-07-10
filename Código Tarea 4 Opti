@@ -1,0 +1,48 @@
+## Dibujo Grafo ##
+# Dibujamos el grafo de la instancia heurística Greedy para cada solución encontrada de los n
+
+muestra = [7,10,20,30,50]
+
+def print_graph(n):
+  G = Generador_grafos(n)
+  print("-"*86)
+  print("Grafo optimización relajamiento lineal")
+  resultado = RL(G)[1]/iter
+  nx.draw(G, with_labels=True, node_color=[colores[resultado[node]] for node in G.nodes()])
+
+
+for i in muestra:
+  print_graph(i)
+
+## Gráfico ##
+
+# Calculando el valor óptimo promedio
+def resultado_prom(iter):
+  soluciones = np.array([0.0 for _ in range(len(muestra))])
+  tiempo_list = np.array([0.0 for _ in range(len(muestra))])
+  for n in muestra:
+    for _ in range(int(iter)):
+
+      G = Generador_grafos(n)
+
+      ## Relajación lineal
+      # t3 = time.clock_gettime_ns(0)
+      # soluciones[muestra.index(n)] += float(RL(G)[1])/iter
+      # t4 = time.clock_gettime_ns(0)
+      # tiempo_list[muestra.index(n)] += (t4-t3)/iter
+
+  return (soluciones,tiempo_list)
+
+result, tempo = resultado_prom(20)
+
+#Grafico de los resultados
+
+fig, ax = plt.subplots()
+ax.plot(muestra,result[0],marker="o", color = "cyan", label = "RL")
+ax.legend(loc = 'upper left')
+ax.set_title("Valor promedio de la solución RL en función del tamaño de las instancias", loc="left")
+ax.set_xlabel("Tamaño de las instancias (número de vértices del grafo)")
+ax.set_ylabel("valor óptimo promedio")
+ax.grid(axis="y", color = "gray", linestyle = "dashed")
+plt.show
+
