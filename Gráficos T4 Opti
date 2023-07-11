@@ -1,0 +1,40 @@
+# Calculando el valor óptimo promedio
+def resultado_prom(iter):
+  soluciones = np.array([0.0 for _ in range(len(muestra))])
+  tiempo_list = np.array([0.0 for _ in range(len(muestra))])
+  for n in muestra:
+    for _ in range(int(iter)):
+      
+      G = Generador_grafos(n)
+
+      ## Relajación lineal
+      
+      t3 = time.time_ns()  
+      soluciones[muestra.index(n)] += float(RL(G)[0])/iter
+      t4 = time.time_ns()
+      tiempo_list[muestra.index(n)] += (t4-t3)/iter
+     
+
+  return (soluciones,tiempo_list)
+
+result, tempo = resultado_prom(20)
+
+#Grafico de los resultados
+
+fig, ax = plt.subplots()
+ax.plot(muestra,result,marker="o", color = "cyan", label = "RL")
+ax.legend(loc = 'upper left')
+ax.set_title("Valor promedio de la solución RL en función del tamaño de las instancias", loc="left")
+ax.set_xlabel("Tamaño de las instancias (número de vértices del grafo)")
+ax.set_ylabel("valor óptimo promedio")
+ax.grid(axis="y", color = "gray", linestyle = "dashed")
+plt.show
+
+fig, ax = plt.subplots()
+ax.plot(muestra,tempo,marker="o", color = "green", label = "RL")
+ax.legend(loc = 'upper left')
+ax.set_title("Tiempo promedio de ejecución de RL en función del tamaño de las instancias", loc="left")
+ax.set_xlabel("Tamaño de las instancias (número de vértices del grafo)")
+ax.set_ylabel("Tiempo promedio de ejecución")
+ax.grid(axis="y", color = "gray", linestyle = "dashed")
+plt.show
